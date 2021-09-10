@@ -22,9 +22,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   
   ],
   
-  controllers: [TasksController],
+  // controllers: [TasksController],
   
-  providers: [TasksService], 
+  // providers: [TasksService], 
 })
 
 export class AppModule {}
