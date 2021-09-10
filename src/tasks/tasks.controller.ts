@@ -16,9 +16,32 @@ getTaskById(@Param('id') id:string ) : Promise<Task>{
   return this.taskService.getTaskById(id);
 }
 
+@Post()
+createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task>{
+  return this.taskService.createTask(createTaskDto);
+}
+
+@Delete('/:id')
+deleteTask(@Param('id') id:string ) : Promise<void>{
+  return this.taskService.deleteTask(id);
+}
 
 
+//help
+@Patch('/:id/status')
+updateTaskStatus(
+  @Param('id') id:string,
+  @Body() updateTaskStatusDto:updateTaskStatus,
+): Promise<Task>{
+  const { status } = updateTaskStatusDto;
+  return this.taskService.updateTaskStatus(id,status);
+}
 
 
+//help
+@Get()
+getTask(@Query() filterDto: GetTaskFilterDto): Promise<Task[]>{
+  return this.taskService.getTasks(filterDto);
+}
 
 }

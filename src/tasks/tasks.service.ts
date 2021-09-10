@@ -14,6 +14,24 @@ export class TasksService {
         private tasksRepository:TaskRepository,
         ){}
 
+
+
+    // help
+    getTasks(filterDto: GetTaskFilterDto): Promise<Task[]>{
+        return this.tasksRepository.getTasks(filterDto);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     async getTaskById(id:string): Promise<Task>{
         const found = await this.tasksRepository.findOne(id);
 
@@ -23,21 +41,27 @@ export class TasksService {
         return found;
     }   
     
-   async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
-        const{ title, description } = createTaskDto;
+   createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+        return this.tasksRepository.createTask(createTaskDto);
+    }
 
-        const task = this.tasksRepository.create({
-            title,
-            description,
-            status: TaskStatus.OPEN,
-        });
+    async deleteTask(id:string): Promise<void>{
+        const result = await this.tasksRepository.delete(id);
+        console.log(result)
+        if(result.affected === 0){
+            throw new NotFoundException(`Task with ID ${id} not found`);
+        }
+        // return found;
+    }
 
+    //help
+    async updateTaskStatus(id: string, status: TaskStatus): Promise<Task>{
+        const task = await this.getTaskById(id);
+        
+        task.status = status;
         await this.tasksRepository.save(task);
         return task;
+    }
 
-        
-
-   }
-    
 }
   
